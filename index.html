@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebGIS Q2 midterm of Luu Hoang Minh - 2106060037</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+    .legend { position: absolute; top: 10px; right: 10px; background: white; padding: 10px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-legend/dist/leaflet-legend.js"></script>
+
+  <script>
+    // Create map centered at your study area (Muong La, Son La)
+    var map = L.map('map').setView([21.233, 104.876], 10);  // Use coordinates of Muong La, Son La
+
+    // Add OpenStreetMap background layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Load and display the commune layer (GeoJSON or other format)
+    var communeLayer = L.geoJSON(data_commune, {
+      onEachFeature: function (feature, layer) {
+        // Add labels for each commune
+        layer.bindPopup("<b>" + feature.properties.name + "</b>");
+      }
+    }).addTo(map);
+
+    // Add legend
+    var legend = L.control({position: 'topright'});
+    legend.onAdd = function () {
+      var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML = '<h4>Legend</h4><p>Legend content goes here</p>';  // Customize this as needed
+      return div;
+    };
+    legend.addTo(map);
+
+    // Add title (Overlay)
+    var title = L.control({position: 'topcenter'});
+    title.onAdd = function () {
+      var div = L.DomUtil.create('div', 'info title');
+      div.innerHTML = "<h3>WebGIS Q2 midterm of Luu Hoang Minh - 2106060037</h3><p>Study area: Muong La, Son La</p>";
+      return div;
+    };
+    title.addTo(map);
+  </script>
+</body>
+</html>
